@@ -17,45 +17,46 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
-
-    private List<TaskModel>list = new ArrayList<>();
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HolderTask>{
+    private ArrayList<TaskModel> taskModelList = new ArrayList<>();
 
     @NonNull
     @NotNull
     @Override
-    public HomeAdapter.HomeHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
+    public HomeAdapter.HolderTask onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
-        return new HomeHolder(view);
+        return new HolderTask(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull HomeAdapter.HomeHolder holder, int position) {
-        holder.bind(list.get(position));
+    public void onBindViewHolder(@NonNull @NotNull HomeAdapter.HolderTask holder, int position) {
+        holder.bind(taskModelList.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return taskModelList.size();
     }
 
-    public void addInfo(TaskModel taskModel){
-        list.add(taskModel);
+    public void addInfo(TaskModel taskModel) {
+        taskModelList.add(taskModel);
         notifyDataSetChanged();
     }
 
+    public void filterList(ArrayList<TaskModel> fildredList) {
+        taskModelList = fildredList;
+        notifyDataSetChanged();
+    }
 
-    public class HomeHolder extends RecyclerView.ViewHolder {
-        private TextView tvTitle, tvDescription;
-        public HomeHolder(@NonNull @NotNull View itemView) {
+    public class HolderTask extends RecyclerView.ViewHolder {
+        TextView tvTitle;
+        public HolderTask(@NonNull @NotNull View itemView) {
             super(itemView);
-            tvTitle = itemView.findViewById(R.id.tv_title);
-            tvDescription = itemView.findViewById(R.id.tv_description);
+            tvTitle = itemView.findViewById(R.id.item_title);
         }
 
         public void bind(TaskModel taskModel) {
             tvTitle.setText(taskModel.getTitle());
-            tvDescription.setText(taskModel.getDescription());
         }
     }
 }
